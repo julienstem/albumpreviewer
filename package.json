@@ -14,11 +14,14 @@
   },
   "dependencies": {
     "gh-pages": "^6.3.0",
+    "jsmediatags": "^3.9.7",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-drag-drop-files": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/jsmediatags": "^3.9.6",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

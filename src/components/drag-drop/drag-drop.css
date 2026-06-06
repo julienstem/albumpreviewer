@@ -1,0 +1,27 @@
+.drag-drop {
+    margin: 20px;
+    background-color: var(--component-background-color);
+}
+
+.drag-drop-area{
+    border: 2px dashed var(--accent-color); 
+    color: var(--accent-color);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
