@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import "./drag-drop.css";
 import type { Metadata } from "../../types/metadata";

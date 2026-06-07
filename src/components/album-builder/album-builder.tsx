@@ -17,6 +17,7 @@ function AlbumBuilder() {
 
   return (
     <div className="album-builder">
+      <div className="album-builder-tabs"></div>
       <MetadataList
         metadataList={metadataList}
         onRemoveTrack={handleRemoveTrack}

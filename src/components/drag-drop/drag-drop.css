@@ -2,6 +2,7 @@
   margin: 10px;
   background-color: var(--transparent-background-color);
   width: 100%;
+  border-radius: 10px;
 }
 
 .drag-drop-area {

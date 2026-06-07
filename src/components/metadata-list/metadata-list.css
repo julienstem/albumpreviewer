@@ -4,9 +4,11 @@
 
 .metadata-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   background-color: var(--background-color);
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .metadata-table th,
@@ -22,7 +24,7 @@
   text-align: left;
 }
 
-.even-row {
+.metadata-table tbody tr.table-row:nth-child(odd) {
   background-color: var(--transparent-background-color);
 }
 
@@ -43,4 +45,8 @@
 .remove-button:active {
   color: var(--accent-color);
   background-color: var(--component-background-color);
+}
+
+.drag-handle {
+  cursor: grab;
 }
