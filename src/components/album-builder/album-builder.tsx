@@ -1,9 +1,8 @@
-import { useState, type ReactElement, type ReactNode } from "react";
+import { useState } from "react";
 import type { Metadata } from "../../types/metadata";
 import "./album-builder.css";
-import DragDrop from "../drag-drop/drag-drop";
-import MetadataList from "../metadata-list/metadata-list";
 import TracksManager from "../tracks-manager/tracks-manager";
+import DetailsManager from "../details-manager/details-manager";
 
 const builderTabs = ["Tracks", "Details"];
 
@@ -34,11 +33,7 @@ function AlbumBuilder() {
           />
         );
       case "Details":
-        return (
-          <div className="tab-panel">
-            Formulaire des infos de l'album (Exemple)
-          </div>
-        );
+        return <DetailsManager></DetailsManager>;
       default:
         return null;
     }
@@ -49,11 +44,18 @@ function AlbumBuilder() {
       <div className="album-builder-tabs">
         {builderTabs.map((label) => {
           return (
-            <button onClick={() => handleChangeTab(label)}>{label}</button>
+            <button
+              className={
+                "tab-button " + (selectedTab == label ? "selected-tab" : "")
+              }
+              onClick={() => handleChangeTab(label)}
+            >
+              {label}
+            </button>
           );
         })}
       </div>
-      {renderTabContent()}
+      <div className="content-div">{renderTabContent()}</div>
     </div>
   );
 }

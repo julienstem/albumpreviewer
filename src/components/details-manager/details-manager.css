@@ -1,0 +1,13 @@
+.details-manager {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
