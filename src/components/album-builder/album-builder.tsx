@@ -3,8 +3,9 @@ import type { Metadata } from "../../types/metadata";
 import "./album-builder.css";
 import TracksManager from "../tracks-manager/tracks-manager";
 import DetailsManager from "../details-manager/details-manager";
+import CoverManager from "../cover-manager/cover-manager";
 
-const builderTabs = ["Tracks", "Details"];
+const builderTabs = ["Tracks", "Details", "Cover"];
 
 function AlbumBuilder() {
   const [metadataList, setMetadataList] = useState<Metadata[]>([]);
@@ -34,6 +35,8 @@ function AlbumBuilder() {
         );
       case "Details":
         return <DetailsManager></DetailsManager>;
+      case "Cover":
+        return <CoverManager></CoverManager>;
       default:
         return null;
     }

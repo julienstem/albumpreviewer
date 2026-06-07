@@ -1,5 +1,6 @@
 import type { Metadata } from "../../types/metadata";
 import DragDrop from "../drag-drop/drag-drop";
+import MetadataDragDrop from "../metadata-drag-drop/metadata-drag-drop";
 import MetadataList from "../metadata-list/metadata-list";
 import "./tracks-manager.css";
 
@@ -21,7 +22,7 @@ function TracksManager({
           metadataList={metadataList}
           onRemoveTrack={handleRemoveTrack}
         />
-        <DragDrop onFileUpload={handleFileUpload} />
+        <MetadataDragDrop onFileDrop={handleFileUpload} />
       </>
     </div>
   );
