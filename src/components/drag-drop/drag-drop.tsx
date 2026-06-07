@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import "./drag-drop.css";
-import type { Metadata } from "../types/metadata";
+import type { Metadata } from "../../types/metadata";
 import jsmediatags from "jsmediatags";
 
 const fileTypes = ["MP3", "FLAC", "OGG", "WAV", "AAC", "ALAC", "AIFF"];
@@ -52,10 +52,6 @@ function DragDrop({ onFileUpload }: DragDropProps) {
           resolve({
             title: result.tags.title || file.name,
             artist: result.tags.artist || "Artiste inconnu",
-            album: result.tags.album || null,
-            year: result.tags.year || null,
-            genre: result.tags.genre || null,
-            cover: result.tags.picture ? result.tags.picture.data : null,
           });
         },
         onError: (error: any) => {
@@ -63,7 +59,7 @@ function DragDrop({ onFileUpload }: DragDropProps) {
             "Erreur lecture ID3, fallback sur le nom du fichier",
             error,
           );
-          resolve({ title: file.name, artist: "Artiste inconnu" });
+          resolve({ title: file.name });
         },
       });
     });
@@ -71,10 +67,6 @@ function DragDrop({ onFileUpload }: DragDropProps) {
     const metadata: Metadata = {
       title: file.name,
       artist: tags.artist,
-      album: tags.album,
-      year: tags.year,
-      genre: tags.genre,
-      cover: tags.cover,
       duration: durationStr,
     };
     return metadata;

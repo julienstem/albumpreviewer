@@ -1,27 +1,14 @@
 .drag-drop {
-    margin: 20px;
-    background-color: var(--component-background-color);
+  margin: 10px;
+  background-color: var(--transparent-background-color);
+  width: 100%;
 }
 
-.drag-drop-area{
-    border: 2px dashed var(--accent-color); 
-    color: var(--accent-color);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
+.drag-drop-area {
+  border: 2px dashed var(--accent-color);
+  color: var(--accent-color);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
