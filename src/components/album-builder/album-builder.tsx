@@ -10,6 +10,7 @@ const builderTabs = ["Tracks", "Details", "Cover"];
 function AlbumBuilder() {
   const [metadataList, setMetadataList] = useState<Metadata[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>(builderTabs[0]);
+  const [coverList, setCoverList] = useState<string[]>([]);
 
   const handleFileUpload = (newMetadataList: Metadata[]) => {
     setMetadataList((prevList) => [...prevList, ...newMetadataList]);
@@ -17,6 +18,14 @@ function AlbumBuilder() {
 
   const handleRemoveTrack = (index: number) => {
     setMetadataList((prevList) => prevList.filter((_, i) => i !== index));
+  };
+
+  const handleAddCover = (coverList: string[]) => {
+    setCoverList((prevList) => [...prevList, ...coverList]);
+  };
+
+  const handleRemoveCover = (index: number) => {
+    setCoverList((prevList) => prevList.filter((_, i) => i !== index));
   };
 
   const handleChangeTab = (label: string) => {
@@ -36,7 +45,13 @@ function AlbumBuilder() {
       case "Details":
         return <DetailsManager></DetailsManager>;
       case "Cover":
-        return <CoverManager></CoverManager>;
+        return (
+          <CoverManager
+            coverList={coverList}
+            handleAddCover={handleAddCover}
+            handleRemoveCover={handleRemoveCover}
+          ></CoverManager>
+        );
       default:
         return null;
     }

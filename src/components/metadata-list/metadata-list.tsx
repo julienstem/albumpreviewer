@@ -28,9 +28,6 @@ function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
     }
   }, [metadataList]);
 
-  console.log("Metadata list", metadataListState);
-  console.log("Album actuel dans MetadataList:", context?.album);
-  console.log("Selected track", selectedTracks);
   const isAllSelected =
     metadataListState.length > 0 &&
     selectedTracks.length === metadataListState.length;

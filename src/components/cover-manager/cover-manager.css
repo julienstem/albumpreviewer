@@ -1,0 +1,52 @@
+.cover-manager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-div {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.cover-in-list {
+  width: 100px;
+  height: 100px;
+}
+
+.cover-list {
+  width: 100%;
+  height: 100%;
+  background-color: var(--transition-background-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  border-radius: 10px;
+}
+
+.cover-selector-button:hover {
+  border: 2px solid;
+  border-color: var(--text);
+}
+
+.selected-cover {
+  border: 2px solid;
+  border-color: var(--accent-color);
+}
+
+.cover-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trash-icon {
+  width: 12px;
+}

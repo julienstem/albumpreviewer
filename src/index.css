@@ -16,6 +16,7 @@
   --text: white;
   --border-color: var(--indigo-ink);
   --accent-color: var(--lavender-purple);
+  --text-muted: #777;
 
   background: var(--background-color);
   color: var(--text);
@@ -26,6 +27,19 @@
   align-items: center;
   width: 100%;
   min-height: 100vh;
+  flex-grow: 1;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Important pour le calcul des 100% des enfants */
+  background: var(--background-color);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  overflow: hidden; /* Empêche le double scroll de l'écran */
 }
 
 button {
@@ -108,7 +122,8 @@ input[type="text"]::placeholder {
   font-style: italic;
 }
 
-h2 {
+h2,
+p {
   padding: 0;
   margin: 0;
 }
