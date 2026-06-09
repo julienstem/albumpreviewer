@@ -1,15 +1,12 @@
+import { useBuilder } from "../../context/builder-context/builder-context";
 import type { Metadata } from "../../types/metadata";
 import DragDrop from "../drag-drop/drag-drop";
 import "./metadata-drag-drop.css";
-import jsmediatags from "jsmediatags";
 
 const fileTypes = ["MP3", "FLAC", "OGG", "WAV", "AAC", "ALAC", "AIFF"];
 
-interface MetadataDargDropProps {
-  onFileDrop: (metadataList: Metadata[]) => void;
-}
-
-function MetadataDragDrop({ onFileDrop }: MetadataDargDropProps) {
+function MetadataDragDrop() {
+  const builderContext = useBuilder();
   const formatDuration = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -33,27 +30,8 @@ function MetadataDragDrop({ onFileDrop }: MetadataDargDropProps) {
       audio.addEventListener("error", () => resolve("0:00"));
     });
 
-    const tags = await new Promise<any>((resolve) => {
-      jsmediatags.read(file, {
-        onSuccess: (result: any) => {
-          resolve({
-            title: result.tags.title || file.name,
-            artist: result.tags.artist || "Artiste inconnu",
-          });
-        },
-        onError: (error: any) => {
-          console.warn(
-            "Erreur lecture ID3, fallback sur le nom du fichier",
-            error,
-          );
-          resolve({ title: file.name });
-        },
-      });
-    });
-
     const metadata: Metadata = {
       title: formatName(file.name),
-      artist: tags.artist,
       duration: durationStr,
     };
     return metadata;
@@ -66,7 +44,7 @@ function MetadataDragDrop({ onFileDrop }: MetadataDargDropProps) {
     });
 
     const metadataList: Metadata[] = await Promise.all(promiseList);
-    onFileDrop(metadataList);
+    metadataList.forEach((metadata) => builderContext.addMetadata(metadata));
   };
 
   return (

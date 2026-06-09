@@ -5,11 +5,11 @@ function DetailsManager() {
   const context = useAlbum();
   const { title, artist } = context.album;
   const handleTitleInput = (input: string) => {
-    context.updateAlbumInfo({ title: input, artist: artist });
+    context.updateAlbumInfos({ title: input, artist: artist });
   };
 
   const handleArtistInput = (input: string) => {
-    context.updateAlbumInfo({ title: title, artist: input });
+    context.updateAlbumInfos({ title: title, artist: input });
   };
 
   return (

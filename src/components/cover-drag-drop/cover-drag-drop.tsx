@@ -1,3 +1,4 @@
+import { compressAndResizeImage } from "../../utils/image-compressor";
 import DragDrop from "../drag-drop/drag-drop";
 import "./cover-drag-drop.css";
 
@@ -8,17 +9,17 @@ interface CoverDragDropInterface {
 }
 
 function CoverDragDrop({ onCoverDrop }: CoverDragDropInterface) {
-  const onFileUpload = (fileList: File[]) => {
+  const onFileUpload = async (fileList: File[]) => {
     const filesArray = Array.from(fileList);
-    const urls: string[] = filesArray.map((file) => {
-      return URL.createObjectURL(file).toString();
+    const urlsPromises: Promise<string>[] = filesArray.map((file) => {
+      return compressAndResizeImage(file);
     });
-    onCoverDrop(urls);
+    onCoverDrop(await Promise.all(urlsPromises));
   };
 
   return (
     <DragDrop
-      onFileUpload={(files) => onFileUpload(files)}
+      onFileUpload={async (files) => await onFileUpload(files)}
       placeholder="Drop your image files here or click to open file selector"
       fileTypes={fileTypes}
     ></DragDrop>

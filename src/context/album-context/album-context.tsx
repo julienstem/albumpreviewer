@@ -1,20 +1,21 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { Album } from "../../types/album";
 import type { Metadata } from "../../types/metadata";
 
 interface AlbumContextType {
   album: Album;
-  updateTrackMetadata: (index: number, metadata: Partial<Metadata>) => void;
   addTrack: (metadata: Metadata) => void;
-  addMultipleTracks: (metadataList: Metadata[]) => void;
   removeTrack: (index: number) => void;
-  updateAlbumInfo: (info: Partial<Omit<Album, "tracks">>) => void;
-  reorderTracks: (startIndex: number, endIndex: number) => void;
+  setTracks: (metadataList: Metadata[]) => void;
+  updateAlbumInfos: (info: Partial<Omit<Album, "tracks">>) => void;
   cleanTracks: () => void;
   calculateAlbumDuration: () => string;
+  resetAlbum: () => void;
 }
 
 const AlbumContext = createContext<AlbumContextType | undefined>(undefined);
+
+const LOCAL_STORAGE_KEY = "music_builder_album";
 
 const initialAlbum: Album = {
   title: "",
@@ -26,56 +27,68 @@ const initialAlbum: Album = {
 export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [album, setAlbum] = useState<Album>(initialAlbum);
 
-  const updateTrackMetadata = (index: number, metadata: Partial<Metadata>) => {
+  useEffect(() => {
+    const savedAlbum = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedAlbum) {
+      try {
+        setAlbum(JSON.parse(savedAlbum));
+      } catch (error) {
+        console.error("Erreur lors du chargement de l'album sauvegardé", error);
+      }
+    }
+  }, []);
+
+  const saveAlbum = (albumToSave: Album) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(albumToSave));
+  };
+
+  const addTrack = (track: Metadata) => {
     setAlbum((prev) => {
-      const updatedTracks = [...prev.tracks];
-      updatedTracks[index] = { ...updatedTracks[index], ...metadata };
-      return { ...prev, tracks: updatedTracks };
+      const updated = { ...prev, tracks: [...prev.tracks, track] };
+      saveAlbum(updated); // On sauvegarde le nouvel état
+      return updated;
     });
-  };
-
-  const addTrack = (newTrack: Metadata) => {
-    setAlbum((prev) => ({
-      ...prev,
-      tracks: [...prev.tracks, newTrack],
-    }));
-  };
-
-  const addMultipleTracks = (metadataList: Metadata[]) => {
-    setAlbum((prev) => ({
-      ...prev,
-      tracks: [...prev.tracks, ...metadataList],
-    }));
   };
 
   const removeTrack = (index: number) => {
-    setAlbum((prev) => ({
-      ...prev,
-      tracks: prev.tracks.filter((_, i) => i !== index),
-    }));
-  };
-
-  const cleanTracks = () => {
-    setAlbum((prev) => ({
-      ...prev,
-      tracks: [],
-    }));
-  };
-
-  const reorderTracks = (startIndex: number, endIndex: number) => {
     setAlbum((prev) => {
-      const updatedTracks = [...prev.tracks];
-      const [removed] = updatedTracks.splice(startIndex, 1);
-      updatedTracks.splice(endIndex, 0, removed);
-      return { ...prev, tracks: updatedTracks };
+      const updated = {
+        ...prev,
+        tracks: prev.tracks.filter((_, i) => i !== index),
+      };
+      saveAlbum(updated);
+      return updated;
     });
   };
 
-  const updateAlbumInfo = (info: Partial<Omit<Album, "tracks">>) => {
-    setAlbum((prev) => ({
-      ...prev,
-      ...info,
-    }));
+  const setTracks = (newTracks: Metadata[]) => {
+    setAlbum((prev) => {
+      const updated = { ...prev, tracks: newTracks };
+      saveAlbum(updated);
+      return updated;
+    });
+  };
+
+  const updateAlbumInfos = (fields: Partial<Omit<Album, "tracks">>) => {
+    setAlbum((prev) => {
+      const updated = { ...prev, ...fields };
+      saveAlbum(updated);
+      return updated;
+    });
+  };
+
+  const cleanTracks = () => {
+    setAlbum((prev) => {
+      const updated = { ...prev, tracks: [] };
+      saveAlbum(updated);
+      return updated;
+    });
+  };
+
+  // Permet aussi de tout réinitialiser (effacer la sauvegarde)
+  const resetAlbum = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    setAlbum(initialAlbum);
   };
 
   function calculateAlbumDuration(): string {
@@ -104,14 +117,13 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     <AlbumContext.Provider
       value={{
         album,
-        updateTrackMetadata,
         addTrack,
-        addMultipleTracks,
         removeTrack,
-        updateAlbumInfo,
-        reorderTracks,
-        cleanTracks,
+        setTracks,
         calculateAlbumDuration,
+        cleanTracks,
+        updateAlbumInfos,
+        resetAlbum,
       }}
     >
       {children}

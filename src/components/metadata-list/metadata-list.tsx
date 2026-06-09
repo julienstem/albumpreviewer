@@ -10,13 +10,11 @@ import "./metadata-list.css";
 import { RxCross2 } from "react-icons/rx";
 import { useAlbum } from "../../context/album-context/album-context";
 import { MdDragIndicator } from "react-icons/md";
+import { useBuilder } from "../../context/builder-context/builder-context";
 
-interface MetadataListProps {
-  metadataList: Metadata[];
-  onRemoveTrack: (index: number) => void;
-}
-
-function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
+function MetadataList() {
+  const builderContext = useBuilder();
+  const { metadataList, removeMetadata } = builderContext;
   const [metadataListState, setMetadataListState] =
     useState<Metadata[]>(metadataList);
   const context = useAlbum();
@@ -70,7 +68,7 @@ function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
 
   const handleRemoveTrack = (index: number, isChecked: boolean) => {
     const trackToRemove = metadataListState[index];
-    onRemoveTrack(index);
+    removeMetadata(index);
     if (isChecked) {
       const contextIndex = context.album.tracks.findIndex(
         (ctxTrack) => ctxTrack.title === trackToRemove.title,

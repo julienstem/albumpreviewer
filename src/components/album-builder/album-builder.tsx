@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { Metadata } from "../../types/metadata";
 import "./album-builder.css";
 import TracksManager from "../tracks-manager/tracks-manager";
 import DetailsManager from "../details-manager/details-manager";
@@ -8,25 +7,7 @@ import CoverManager from "../cover-manager/cover-manager";
 const builderTabs = ["Tracks", "Details", "Cover"];
 
 function AlbumBuilder() {
-  const [metadataList, setMetadataList] = useState<Metadata[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>(builderTabs[0]);
-  const [coverList, setCoverList] = useState<string[]>([]);
-
-  const handleFileUpload = (newMetadataList: Metadata[]) => {
-    setMetadataList((prevList) => [...prevList, ...newMetadataList]);
-  };
-
-  const handleRemoveTrack = (index: number) => {
-    setMetadataList((prevList) => prevList.filter((_, i) => i !== index));
-  };
-
-  const handleAddCover = (coverList: string[]) => {
-    setCoverList((prevList) => [...prevList, ...coverList]);
-  };
-
-  const handleRemoveCover = (index: number) => {
-    setCoverList((prevList) => prevList.filter((_, i) => i !== index));
-  };
 
   const handleChangeTab = (label: string) => {
     setSelectedTab(label);
@@ -35,23 +16,11 @@ function AlbumBuilder() {
   const renderTabContent = () => {
     switch (selectedTab) {
       case "Tracks":
-        return (
-          <TracksManager
-            metadataList={metadataList}
-            handleFileUpload={handleFileUpload}
-            handleRemoveTrack={handleRemoveTrack}
-          />
-        );
+        return <TracksManager />;
       case "Details":
         return <DetailsManager></DetailsManager>;
       case "Cover":
-        return (
-          <CoverManager
-            coverList={coverList}
-            handleAddCover={handleAddCover}
-            handleRemoveCover={handleRemoveCover}
-          ></CoverManager>
-        );
+        return <CoverManager></CoverManager>;
       default:
         return null;
     }
