@@ -1,19 +1,15 @@
-import { useState } from "react";
 import { useAlbum } from "../../context/album-context/album-context";
 import "./details-manager.css";
 
 function DetailsManager() {
   const context = useAlbum();
-  const [title, setTitle] = useState<string>("");
-  const [artist, setArtist] = useState<string>("");
+  const { title, artist } = context.album;
   const handleTitleInput = (input: string) => {
-    setTitle(input);
-    context.updateAlbumInfo({ title, artist });
+    context.updateAlbumInfo({ title: input, artist: artist });
   };
 
   const handleArtistInput = (input: string) => {
-    setArtist(input);
-    context.updateAlbumInfo({ title, artist });
+    context.updateAlbumInfo({ title: title, artist: input });
   };
 
   return (
@@ -25,6 +21,7 @@ function DetailsManager() {
           type="text"
           placeholder="Enter your album name here"
           onChange={(event) => handleTitleInput(event.target.value)}
+          value={context.album.title}
         ></input>
       </div>
       <div className="detail-field">
@@ -33,6 +30,7 @@ function DetailsManager() {
           className="album-details-input"
           type="text"
           placeholder="Enter your artist name here"
+          value={context.album.artist}
           onChange={(event) => handleArtistInput(event.target.value)}
         ></input>
       </div>

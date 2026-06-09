@@ -20,60 +20,90 @@ function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
   const [metadataListState, setMetadataListState] =
     useState<Metadata[]>(metadataList);
   const context = useAlbum();
-  const [selectedTracks, setSelectedTracks] = useState<number[]>([]);
 
   useEffect(() => {
-    if (metadataList && metadataList.length > 0) {
+    if (metadataList) {
       setMetadataListState(metadataList);
     }
   }, [metadataList]);
 
   const isAllSelected =
     metadataListState.length > 0 &&
-    selectedTracks.length === metadataListState.length;
-  const handleToggleTrack = (index: number, isSelected: boolean) => {
-    const handleSelectTrack = (index: number) => {
-      context.addTrack(metadataListState[index]);
-      setSelectedTracks((prev) => [...prev, index]);
-    };
-    const handleDeselectTrack = (index: number) => {
-      context.removeTrack(index);
-      setSelectedTracks((prev) => prev.filter((i) => i !== index));
-    };
-    if (isSelected) {
-      if (selectedTracks.includes(index)) {
-        return;
+    metadataListState.every((track) =>
+      context.album.tracks.some((ctxTrack) => ctxTrack.title === track.title),
+    );
+
+  const isTrackSelected = (track: Metadata) => {
+    return context.album.tracks.some(
+      (ctxTrack) => ctxTrack.title === track.title,
+    );
+  };
+
+  const handleToggleTrack = (index: number, isChecked: boolean) => {
+    const track = metadataListState[index];
+
+    if (isChecked) {
+      if (!isTrackSelected(track)) {
+        context.addTrack(track);
       }
-      handleSelectTrack(index);
     } else {
-      handleDeselectTrack(index);
+      const contextIndex = context.album.tracks.findIndex(
+        (ctxTrack) => ctxTrack.title === track.title,
+      );
+      if (contextIndex !== -1) {
+        context.removeTrack(contextIndex);
+      }
+    }
+  };
+
+  const handleSelectAll = (isChecked: boolean) => {
+    if (isChecked) {
+      metadataListState.forEach((track) => {
+        if (!isTrackSelected(track)) {
+          context.addTrack(track);
+        }
+      });
+    } else {
+      context.cleanTracks();
+    }
+  };
+
+  const handleRemoveTrack = (index: number, isChecked: boolean) => {
+    const trackToRemove = metadataListState[index];
+    onRemoveTrack(index);
+    if (isChecked) {
+      const contextIndex = context.album.tracks.findIndex(
+        (ctxTrack) => ctxTrack.title === trackToRemove.title,
+      );
+      if (contextIndex !== -1) {
+        context.removeTrack(contextIndex);
+      }
     }
   };
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    swapMetadataListPosition(result.source.index, result.destination.index);
-    const newSelectedTracks = [...selectedTracks];
-    const [movedTrack] = newSelectedTracks.splice(result.source.index, 1);
-    newSelectedTracks.splice(result.destination.index, 0, movedTrack);
-    setSelectedTracks(newSelectedTracks);
-  };
-
-  const handleSelectAll = (isSelected: boolean) => {
-    if (isSelected) {
-      metadataListState.forEach((_, index) => handleToggleTrack(index, true));
-    } else {
-      context.cleanTracks();
-      setSelectedTracks([]);
-    }
-  };
-
-  const swapMetadataListPosition = (startIndex: number, endIndex: number) => {
     const newMetadataList = [...metadataListState];
-    const [removed] = newMetadataList.splice(startIndex, 1);
-    newMetadataList.splice(endIndex, 0, removed);
+    const [movedTrack] = newMetadataList.splice(result.source.index, 1);
+    newMetadataList.splice(result.destination.index, 0, movedTrack);
+
     setMetadataListState(newMetadataList);
+
+    const newContextTracks: Metadata[] = [];
+
+    newMetadataList.forEach((track) => {
+      const isSelected = context.album.tracks.some(
+        (ctxTrack) => ctxTrack.title === track.title,
+      );
+
+      if (isSelected) {
+        newContextTracks.push(track);
+      }
+    });
+
+    context.cleanTracks();
+    newContextTracks.forEach((track) => context.addTrack(track));
   };
 
   return (
@@ -91,7 +121,6 @@ function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
             </th>
             <th>#</th>
             <th>Title</th>
-            <th>Featuring</th>
             <th>Duration</th>
             <th></th>
           </tr>
@@ -100,50 +129,55 @@ function MetadataList({ metadataList, onRemoveTrack }: MetadataListProps) {
           <Droppable droppableId="metadataList">
             {(provided) => (
               <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                {metadataListState.map((metadata, index) => (
-                  <Draggable
-                    key={index}
-                    draggableId={`track-${index}`}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <tr
-                        key={index}
-                        className={"table-row"}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                      >
-                        <td
-                          {...provided.dragHandleProps}
-                          className="drag-handle"
+                {metadataListState.map((metadata, index) => {
+                  const rowKey = `${metadata.title}-${index}`;
+                  const isChecked = isTrackSelected(metadata);
+
+                  return (
+                    <Draggable
+                      key={rowKey}
+                      draggableId={`track-${rowKey}`}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <tr
+                          className="table-row"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
                         >
-                          <MdDragIndicator />
-                        </td>
-                        <td>
-                          <input
-                            type="checkbox"
-                            onChange={(e) =>
-                              handleToggleTrack(index, e.target.checked)
-                            }
-                            checked={selectedTracks.includes(index)}
-                          />
-                        </td>
-                        <td>{index + 1}</td>
-                        <td>{metadata.title}</td>
-                        <td>{metadata.artist}</td>
-                        <td>{metadata.duration}</td>
-                        <td>
-                          <button
-                            className="remove-button"
-                            onClick={() => onRemoveTrack(index)}
+                          <td
+                            {...provided.dragHandleProps}
+                            className="drag-handle"
                           >
-                            <RxCross2 />
-                          </button>
-                        </td>
-                      </tr>
-                    )}
-                  </Draggable>
-                ))}
+                            <MdDragIndicator />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              onChange={(e) =>
+                                handleToggleTrack(index, e.target.checked)
+                              }
+                              checked={isChecked}
+                            />
+                          </td>
+                          <td>{index + 1}</td>
+                          <td>{metadata.title}</td>
+                          <td>{metadata.duration}</td>
+                          <td>
+                            <button
+                              className="remove-button"
+                              onClick={() =>
+                                handleRemoveTrack(index, isChecked)
+                              }
+                            >
+                              <RxCross2 />
+                            </button>
+                          </td>
+                        </tr>
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </tbody>
             )}

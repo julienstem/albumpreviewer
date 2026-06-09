@@ -1,15 +1,16 @@
 .metadata-list {
   width: 100%;
   height: 100%;
+  overflow: auto;
+  display: block;
 }
 
 .metadata-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0;
   background-color: var(--background-color);
   border-radius: 10px;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .metadata-table th,
@@ -19,6 +20,9 @@
 }
 
 .metadata-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background-color: var(--transition-background-color);
   color: var(--accent-color);
   border-bottom: 2px solid var(--border-color);
@@ -27,6 +31,20 @@
 
 .metadata-table tbody tr.table-row:nth-child(odd) {
   background-color: var(--transparent-background-color);
+}
+
+.metadata-table th:first-child {
+  border-top-left-radius: 10px;
+}
+.metadata-table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.metadata-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+.metadata-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
 }
 
 .remove-button {

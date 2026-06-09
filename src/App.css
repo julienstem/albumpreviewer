@@ -5,6 +5,11 @@
   min-height: 100%;
   width: 100%;
   flex-grow: 1;
-  padding: 20px;
-  overflow: hidden;
+}
+
+.main-stage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1 1 0px;
 }

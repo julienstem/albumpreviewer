@@ -11,6 +11,7 @@ interface AlbumContextType {
   updateAlbumInfo: (info: Partial<Omit<Album, "tracks">>) => void;
   reorderTracks: (startIndex: number, endIndex: number) => void;
   cleanTracks: () => void;
+  calculateAlbumDuration: () => string;
 }
 
 const AlbumContext = createContext<AlbumContextType | undefined>(undefined);
@@ -77,6 +78,28 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  function calculateAlbumDuration(): string {
+    let totalSeconds = 0;
+
+    album.tracks.forEach((metadata) => {
+      const [minuts, seconds] = metadata.duration.split(":").map(Number);
+
+      totalSeconds += minuts * 60 + seconds;
+    });
+
+    const totalHours = Math.floor(totalSeconds / 3600);
+    const leftoverSecondsAfterHours = totalSeconds % 3600;
+
+    const totalMinuts = Math.floor(leftoverSecondsAfterHours / 60);
+    const leftoverSecondsFinal = leftoverSecondsAfterHours % 60;
+
+    const hh = String(totalHours).padStart(2, "0");
+    const mm = String(totalMinuts).padStart(2, "0");
+    const ss = String(leftoverSecondsFinal).padStart(2, "0");
+
+    return `${hh}:${mm}:${ss}`;
+  }
+
   return (
     <AlbumContext.Provider
       value={{
@@ -88,6 +111,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
         updateAlbumInfo,
         reorderTracks,
         cleanTracks,
+        calculateAlbumDuration,
       }}
     >
       {children}
