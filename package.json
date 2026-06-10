@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist ${GITHUB_TOKEN:+--repo https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git}",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
