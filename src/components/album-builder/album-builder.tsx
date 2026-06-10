@@ -100,10 +100,15 @@ function AlbumBuilder() {
       <Modal className="import-modal" isOpen={showImportDialog}>
         <DragDrop
           fileTypes={["json"]}
-          placeholder="Drop the json save."
+          placeholder="Drop a .json save"
           onFileUpload={handleImportFileDrop}
           multiple={false}
         ></DragDrop>
+        <div className="cancel-container">
+          <button className="cancel-button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
       </Modal>
     </div>
   );

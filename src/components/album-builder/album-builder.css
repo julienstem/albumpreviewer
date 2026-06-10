@@ -122,6 +122,9 @@
 
 /* Votre classe personnalisée pour la boîte de dialogue elle-même */
 .import-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: var(--component-background-color);
   padding: 24px;
   border-radius: 8px;
@@ -130,4 +133,25 @@
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   /* Pas besoin de z-index ici si l'overlay parent a déjà 9999 */
+}
+
+.cancel-container {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.cancel-button {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.cancel-button:hover {
+  background-color: var(--transparent-background-color);
+}
+
+.cancel-button:active {
+  background-color: var(--background-color);
 }
