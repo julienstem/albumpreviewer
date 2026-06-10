@@ -11,6 +11,7 @@ interface AlbumContextType {
   cleanTracks: () => void;
   calculateAlbumDuration: () => string;
   resetAlbum: () => void;
+  setAlbum: (album: Album) => void;
 }
 
 const AlbumContext = createContext<AlbumContextType | undefined>(undefined);
@@ -31,7 +32,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     const savedAlbum = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (savedAlbum) {
       try {
-        setAlbum(JSON.parse(savedAlbum));
+        setAlbumWithJson(savedAlbum);
       } catch (error) {
         console.error("Erreur lors du chargement de l'album sauvegardé", error);
       }
@@ -85,7 +86,6 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  // Permet aussi de tout réinitialiser (effacer la sauvegarde)
   const resetAlbum = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     setAlbum(initialAlbum);
@@ -113,6 +113,10 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     return `${hh}:${mm}:${ss}`;
   }
 
+  const setAlbumWithJson = (json: string) => {
+    setAlbum(JSON.parse(json));
+  };
+
   return (
     <AlbumContext.Provider
       value={{
@@ -124,6 +128,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
         cleanTracks,
         updateAlbumInfos,
         resetAlbum,
+        setAlbum,
       }}
     >
       {children}

@@ -8,6 +8,9 @@
   --lavender-purple: #9d4eddff;
   --mauve-magic: #c77dffff;
   --mauve: #e0aaffff;
+  --strong-red: rgb(227, 17, 17);
+  --darkred: rgb(53, 4, 4);
+  --muted-red: rgb(111, 4, 4);
 
   --background-color: rgba(0, 0, 0, 0.958);
   --transparent-background-color: var(--dark-amethyst);
@@ -17,6 +20,9 @@
   --border-color: var(--indigo-ink);
   --accent-color: var(--lavender-purple);
   --text-muted: #777;
+  --error-border-color: var(--strong-red);
+  --error-background-color: var(--darkred);
+  --error-active-color: var(--muted-red);
 
   background: var(--background-color);
   color: var(--text);

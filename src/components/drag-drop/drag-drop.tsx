@@ -3,12 +3,18 @@ import { FileUploader } from "react-drag-drop-files";
 import "./drag-drop.css";
 
 interface DragDropProps {
-  onFileUpload: (fileList: File[]) => void;
+  onFileUpload: ((fileList: File[]) => void) | ((file: File) => void);
   fileTypes: string[];
   placeholder: string;
+  multiple: boolean;
 }
 
-function DragDrop({ onFileUpload, fileTypes, placeholder }: DragDropProps) {
+function DragDrop({
+  onFileUpload,
+  fileTypes,
+  placeholder,
+  multiple = true,
+}: DragDropProps) {
   const [file, setFile] = useState<File | File[] | null>(null);
 
   const handleChange = (file: any) => {
@@ -23,7 +29,7 @@ function DragDrop({ onFileUpload, fileTypes, placeholder }: DragDropProps) {
         handleChange={handleChange}
         name="file"
         types={fileTypes}
-        multiple={true}
+        multiple={multiple}
       >
         <div className="drag-drop-area">
           {file ? (

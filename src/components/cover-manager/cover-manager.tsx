@@ -8,12 +8,17 @@ import { useBuilder } from "../../context/builder-context/builder-context";
 function CoverManager() {
   const context = useAlbum();
   const contextBuilder = useBuilder();
-  const { coverList, addCover } = contextBuilder;
+  const { coverList, addCover, removeCover } = contextBuilder;
 
   const [activeCover, setActiveCover] = useState<string>(
     context.album.coverUrl ? context.album.coverUrl : "",
   );
 
+  const handleRemoveCover = (index: number) => {
+    if (coverList[index] === activeCover)
+      context.updateAlbumInfos({ coverUrl: null });
+    removeCover(index);
+  };
   const handleActiveCoverChange = (index: number) => {
     const coverUrl = coverList[index];
     context.updateAlbumInfos({ coverUrl });
@@ -42,7 +47,10 @@ function CoverManager() {
               >
                 <img className="cover-in-list" src={coverUrl} />
               </button>
-              <button className="remove-button">
+              <button
+                className="remove-button"
+                onClick={() => handleRemoveCover(index)}
+              >
                 <FaTrashAlt className="trash-icon"></FaTrashAlt>
               </button>
             </div>

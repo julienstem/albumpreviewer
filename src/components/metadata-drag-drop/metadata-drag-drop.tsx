@@ -49,9 +49,10 @@ function MetadataDragDrop() {
 
   return (
     <DragDrop
-      onFileUpload={async (files) => await handleNewFiles(files)}
+      onFileUpload={async (files: File[]) => await handleNewFiles(files)}
       placeholder="Drop your music files here or click to open file selector"
       fileTypes={fileTypes}
+      multiple={true}
     ></DragDrop>
   );
 }
