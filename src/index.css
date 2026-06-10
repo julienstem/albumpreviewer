@@ -1,111 +1,135 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --dark-amethyst: rgb(12, 12, 12);
+  --dark-amethyst-1: rgb(13, 13, 13);
+  --dark-amethyst-2: rgb(24, 24, 24);
+  --indigo-ink: #3c096cff;
+  --indigo-velvet: #5a189aff;
+  --royal-violet: #7b2cbfff;
+  --lavender-purple: #9d4eddff;
+  --mauve-magic: #c77dffff;
+  --mauve: #e0aaffff;
+  --strong-red: rgb(227, 17, 17);
+  --darkred: rgb(53, 4, 4);
+  --muted-red: rgb(111, 4, 4);
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --background-color: rgba(0, 0, 0, 0.958);
+  --transparent-background-color: var(--dark-amethyst);
+  --component-background-color: var(--dark-amethyst-2);
+  --transition-background-color: var(--dark-amethyst-1);
+  --text: white;
+  --border-color: var(--indigo-ink);
+  --accent-color: var(--lavender-purple);
+  --text-muted: #777;
+  --error-border-color: var(--strong-red);
+  --error-background-color: var(--darkred);
+  --error-active-color: var(--muted-red);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
+  background: var(--background-color);
   color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Inter", sans-serif;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  flex-grow: 1;
 }
 
+html,
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Important pour le calcul des 100% des enfants */
+  background: var(--background-color);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
+button {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  padding: 0;
   margin: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+
+  background-color: var(--component-background-color);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  color: var(--text-h);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+
+  display: inline-grid;
+  place-content: center;
+  position: relative;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+input[type="checkbox"]:checked {
+  background: var(--border-color);
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--background-color);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="text"] {
+  -webkit-appearance: none;
+  appearance: none;
+
+  background-color: var(--transition-background-color);
+  color: var(--text);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px;
+
+  display: inline-grid;
+  place-content: center;
+  position: relative;
+}
+
+input[type="text"]:hover:not(:disabled) {
+  border-color: var(--accent-color);
+  cursor: text;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+
+  box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.2);
+  background-color: var(--component-background-color);
+}
+
+input[type="text"]::placeholder {
+  color: var(--text-muted, #777);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+h2,
+p,
+h1 {
+  padding: 0;
+  margin: 0;
 }

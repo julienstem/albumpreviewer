@@ -1,0 +1,157 @@
+.album-preview,
+.album-preview *,
+.album-preview *::after,
+.album-preview *::before {
+  box-sizing: border-box;
+}
+
+.album-preview {
+  min-width: 500px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  padding: 10px;
+  padding-left: 5px;
+}
+
+.cover-preview {
+  width: 200px;
+  height: 200px;
+}
+
+.album-preview-component {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--component-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  gap: 1rem;
+
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tracklist {
+  display: flex;
+  width: 100%;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+.tracklist-table th:first-child {
+  border-top-left-radius: 10px;
+}
+.tracklist-table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.tracklist-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+.tracklist-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.details-and-cover {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.cover-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-text-placeholder {
+  font-style: italic;
+  color: var(--border-color);
+}
+
+.details-preview {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: end;
+  min-height: 0;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.details-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.details-info .info:not(:last-child)::after {
+  content: "•";
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+.title {
+  font-size: 72px;
+  width: 100%;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+
+  margin: 0;
+  line-height: 0.9;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.tracklist-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--background-color);
+  border-radius: 10px;
+}
+
+.tracklist-table th,
+.tracklist-table td {
+  padding: 12px;
+}
+
+.tracklist-table th:not(.duration),
+.tracklist-table td:not(.duration) {
+  padding: 12px;
+  text-align: left;
+}
+
+.tracklist-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--transition-background-color);
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.duration {
+  text-align: right;
+}
