@@ -29,7 +29,6 @@
 .tab-button {
   background-color: var(--transparent-background-color);
   border: 1px solid var(--border-color);
-  /* On arrondit uniquement les coins supérieurs pour l'effet onglet */
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   padding: 8px 10px;
@@ -37,7 +36,6 @@
   color: var(--text-color, #fff);
   transition: background-color 0.2s ease;
 
-  /* Permet à l'onglet de descendre d'un pixel pour masquer la bordure du contenu */
   margin-bottom: -1px;
 }
 
@@ -113,14 +111,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6) !important; /* Fond semi-transparent */
-  z-index: 9999 !important; /* Force le passage au premier plan */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  z-index: 9999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Votre classe personnalisée pour la boîte de dialogue elle-même */
 .import-modal {
   display: flex;
   flex-direction: column;
@@ -132,7 +129,6 @@
   width: 100%;
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  /* Pas besoin de z-index ici si l'overlay parent a déjà 9999 */
 }
 
 .cancel-container {
