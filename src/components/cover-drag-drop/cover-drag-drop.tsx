@@ -19,9 +19,10 @@ function CoverDragDrop({ onCoverDrop }: CoverDragDropInterface) {
 
   return (
     <DragDrop
-      onFileUpload={async (files) => await onFileUpload(files)}
+      onFileUpload={async (files: File[]) => await onFileUpload(files)}
       placeholder="Drop your image files here or click to open file selector"
       fileTypes={fileTypes}
+      multiple={true}
     ></DragDrop>
   );
 }
