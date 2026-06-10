@@ -1,0 +1,42 @@
+name: Deploy Website
+
+# Déclencheurs du workflow
+on:
+  push:
+    branches:
+      - main # Changez par 'master' si votre branche principale utilise encore l'ancien nom
+
+# Garantit qu'un seul déploiement tourne à la fois pour éviter les conflits
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupère le code source de votre dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Installe Node.js et configure le cache de Yarn automatiquement
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Ajustez selon la version de Node que vous utilisez
+          cache: "yarn"
+
+      # 3. Installe les dépendances de votre projet
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        # --frozen-lockfile s'assure que Yarn n'essaie pas de mettre à jour le yarn.lock pendant le CI
+
+      # 4. Lance la commande de build / déploiement
+      - name: Run deploy script
+        run: yarn deploy
+        env:
+          # Si votre script de déploiement a besoin de variables d'environnement secrètes
+          # (Clé API, token AWS, token GitHub, etc.), passez-les ici :
+          NODE_ENV: production
+          # EXEMPLE_TOKEN: ${{ secrets.MY_DEPLOY_TOKEN }}
