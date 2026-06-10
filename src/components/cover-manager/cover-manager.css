@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 0;
 }
 
 .info-div {
@@ -29,6 +30,8 @@
   flex-direction: row;
   gap: 20px;
   border-radius: 10px;
+  overflow: auto;
+  flex-wrap: wrap;
 }
 
 .cover-selector-button:hover {
