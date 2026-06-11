@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type { Metadata } from "../../types/metadata";
 import {
   DragDropContext,
@@ -15,19 +14,11 @@ import { useBuilder } from "../../context/builder-context/builder-context";
 function MetadataList() {
   const builderContext = useBuilder();
   const { metadataList, removeMetadata } = builderContext;
-  const [metadataListState, setMetadataListState] =
-    useState<Metadata[]>(metadataList);
   const context = useAlbum();
 
-  useEffect(() => {
-    if (metadataList) {
-      setMetadataListState(metadataList);
-    }
-  }, [metadataList]);
-
   const isAllSelected =
-    metadataListState.length > 0 &&
-    metadataListState.every((track) =>
+    metadataList.length > 0 &&
+    metadataList.every((track) =>
       context.album.tracks.some((ctxTrack) => ctxTrack.title === track.title),
     );
 
@@ -38,7 +29,7 @@ function MetadataList() {
   };
 
   const handleToggleTrack = (index: number, isChecked: boolean) => {
-    const track = metadataListState[index];
+    const track = metadataList[index];
 
     if (isChecked) {
       if (!isTrackSelected(track)) {
@@ -56,7 +47,7 @@ function MetadataList() {
 
   const handleSelectAll = (isChecked: boolean) => {
     if (isChecked) {
-      metadataListState.forEach((track) => {
+      metadataList.forEach((track) => {
         if (!isTrackSelected(track)) {
           context.addTrack(track);
         }
@@ -67,7 +58,7 @@ function MetadataList() {
   };
 
   const handleRemoveTrack = (index: number, isChecked: boolean) => {
-    const trackToRemove = metadataListState[index];
+    const trackToRemove = metadataList[index];
     removeMetadata(index);
     if (isChecked) {
       const contextIndex = context.album.tracks.findIndex(
@@ -82,11 +73,11 @@ function MetadataList() {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    const newMetadataList = [...metadataListState];
+    const newMetadataList = [...metadataList];
     const [movedTrack] = newMetadataList.splice(result.source.index, 1);
     newMetadataList.splice(result.destination.index, 0, movedTrack);
 
-    setMetadataListState(newMetadataList);
+    builderContext.setMetadataList(newMetadataList);
 
     const newContextTracks: Metadata[] = [];
 
@@ -127,7 +118,7 @@ function MetadataList() {
           <Droppable droppableId="metadataList">
             {(provided) => (
               <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                {metadataListState.map((metadata, index) => {
+                {metadataList.map((metadata, index) => {
                   const rowKey = `${metadata.title}-${index}`;
                   const isChecked = isTrackSelected(metadata);
 
