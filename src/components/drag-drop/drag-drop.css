@@ -13,3 +13,7 @@
   text-align: center;
   cursor: pointer;
 }
+
+.is-dragging {
+  background-color: var(--light-dark-background-color);
+}

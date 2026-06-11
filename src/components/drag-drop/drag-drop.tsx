@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import "./drag-drop.css";
 
@@ -16,11 +16,26 @@ function DragDrop({
   multiple = true,
 }: DragDropProps) {
   const [file, setFile] = useState<File | File[] | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    if (!file) return;
+
+    const timer = setTimeout(() => {
+      setFile(null);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [file]);
 
   const handleChange = (file: any) => {
     const extractedFiles = Array.from(file) as unknown as File;
     setFile(extractedFiles);
     onFileUpload(file);
+  };
+
+  const handleDraggingState = (dragging: boolean) => {
+    setIsDragging(dragging);
   };
 
   return (
@@ -30,8 +45,15 @@ function DragDrop({
         name="file"
         types={fileTypes}
         multiple={multiple}
+        onDraggingStateChange={handleDraggingState}
+        hoverTitle=""
+        dropMessageStyle={{
+          display: "none",
+          opacity: 0,
+          backgroundColor: "transparent",
+        }}
       >
-        <div className="drag-drop-area">
+        <div className={`drag-drop-area ${isDragging ? "is-dragging" : ""}`}>
           {file ? (
             <p>
               {Array.isArray(file)

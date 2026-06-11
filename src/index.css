@@ -2,6 +2,7 @@
   --dark-amethyst: rgb(12, 12, 12);
   --dark-amethyst-1: rgb(13, 13, 13);
   --dark-amethyst-2: rgb(24, 24, 24);
+  --dark-amethyst-light: rgb(32, 32, 32);
   --indigo-ink: #3c096cff;
   --indigo-velvet: #5a189aff;
   --royal-violet: #7b2cbfff;
@@ -23,7 +24,7 @@
   --error-border-color: var(--strong-red);
   --error-background-color: var(--darkred);
   --error-active-color: var(--muted-red);
-
+  --light-dark-background-color: var(--dark-amethyst-light);
   background: var(--background-color);
   color: var(--text);
   font-family: "Inter", sans-serif;
