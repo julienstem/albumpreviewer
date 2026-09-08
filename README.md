@@ -1,3 +1,9 @@
+---
+title: "Album Previewer"
+description_fr: "Ce site permet de contruire une maquette d'un album en organisant la tracklist ou en essayant divers covers. Il est possible de partager et de sauvegarder la maquette."
+description_eng: "This website was made to allow building and managing an album such as building a tracklist or trying different covers. You can save and share the preview."
+---
+
 # Album Previewer
 
 This website was made to allow building and managing an album.
